@@ -13,19 +13,27 @@ async function main() {
   if (!existingAdmin) {
     const hashedPassword = await bcrypt.hash("admin123", 10);
     await prisma.user.create({
-    data: {
+      data: {
         email: adminEmail,
-        name: "Admin User",
+        name: "Hasan Ehsan",
         role: "ADMIN",
         password: hashedPassword,
         status: "ACTIVE",
+        bio: "Full Stack Developer with over 6 years of experience building scalable web and mobile applications using PHP, Laravel, Node.js, NestJS, React, and cloud infrastructure.",
       },
     });
-    console.log("Admin user created");
+    console.log("Admin user created: Hasan Ehsan");
   } else {
-    console.log("Admin user already exists");
+    // Update existing admin info just in case
+    await prisma.user.update({
+      where: { email: adminEmail },
+      data: {
+        name: "Hasan Ehsan",
+        bio: "Full Stack Developer with over 6 years of experience building scalable web and mobile applications using PHP, Laravel, Node.js, NestJS, React, and cloud infrastructure.",
+      },
+    });
+    console.log("Admin user updated: Hasan Ehsan");
   }
-
   // Category Seeder
   const techCategories = [
     { name: "AI", slug: "ai" },
