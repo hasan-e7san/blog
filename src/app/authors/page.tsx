@@ -1,5 +1,14 @@
 import { prisma } from "@/lib/prisma";
-import Link from "next/link";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Authors",
+  description:
+    "Meet the authors and contributors behind the published articles on Hasan Ehsan Cloud.",
+  path: "/authors",
+  keywords: ["authors", "contributors", "Hasan Ehsan", "blog authors"],
+});
 
 export default async function AuthorsPage() {
   const authors = await prisma.user.findMany({

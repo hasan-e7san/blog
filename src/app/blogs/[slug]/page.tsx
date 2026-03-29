@@ -1,36 +1,87 @@
-import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { Calendar, User, Tag as TagIcon, Clock } from "lucide-react";
 import EngagementSection from "@/components/public/EngagementSection";
 import { getServerSession } from "next-auth";
+import type { Metadata } from "next";
+import { absoluteUrl, buildPageMetadata, siteConfig } from "@/lib/seo";
+import { getPublishedArticleBySlug } from "@/lib/public-content";
+import { prisma } from "@/lib/prisma";
 
 interface BlogDetailProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: BlogDetailProps): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getPublishedArticleBySlug(slug);
+
+  if (!article) {
+    return buildPageMetadata({
+      title: "Article Not Found",
+      description: "The requested article could not be found.",
+      path: `/blogs/${slug}`,
+      noIndex: true,
+    });
+  }
+
+  const tagNames = article.tags.map((item) => item.tag.name);
+
+  return buildPageMetadata({
+    title: article.seoTitle || article.title,
+    description:
+      article.seoDescription ||
+      article.excerpt ||
+      siteConfig.description,
+    path: `/blogs/${article.slug}`,
+    image: article.coverImage,
+    type: "article",
+    keywords: Array.from(new Set([...siteConfig.keywords, article.category.name, ...tagNames])),
+    category: article.category.name,
+    publishedTime: article.publishedAt || article.createdAt,
+    modifiedTime: article.updatedAt,
+    authors: [article.author.name || siteConfig.creator],
+    section: article.category.name,
+    tags: tagNames,
+  });
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailProps) {
   const { slug } = await params;
   const session = await getServerSession();
 
-  const article = await prisma.article.findUnique({
-    where: { slug },
-    include: { 
-      category: true, 
-      author: true, 
-      tags: { include: { tag: true } },
-      likes: true,
-      comments: { 
-        where: { status: 'APPROVED' },
-        include: { user: true },
-        orderBy: { createdAt: 'desc' }
-      }
-    },
-  });
+  const article = await getPublishedArticleBySlug(slug);
 
   if (!article) {
     notFound();
   }
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description:
+      article.seoDescription ||
+      article.excerpt ||
+      siteConfig.description,
+    image: article.coverImage ? [absoluteUrl(article.coverImage)] : undefined,
+    datePublished: (article.publishedAt || article.createdAt).toISOString(),
+    dateModified: article.updatedAt.toISOString(),
+    author: {
+      "@type": "Person",
+      name: article.author.name || siteConfig.creator,
+    },
+    publisher: {
+      "@type": "Person",
+      name: siteConfig.creator,
+      url: absoluteUrl(),
+    },
+    mainEntityOfPage: absoluteUrl(`/blogs/${article.slug}`),
+    articleSection: article.category.name,
+    keywords: article.tags.map((item) => item.tag.name).join(", "),
+  };
 
   let isLiked = false;
   if (session?.user?.email) {
@@ -42,6 +93,10 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
 
   return (
     <article style={{ maxWidth: "800px", margin: "0 auto", paddingBottom: '8rem' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <header style={{ marginBottom: "4rem", textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
           <span className="badge" style={{ background: 'rgba(59, 130, 246, 0.1)', color: 'var(--accent)', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
@@ -76,11 +131,11 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
       }}>
         <ReactMarkdown
           components={{
-            h2: ({node, ...props}) => <h2 style={{ fontSize: '1.8rem', marginTop: '3rem', marginBottom: '1.5rem', color: 'var(--foreground)' }} {...props} />,
-            h3: ({node, ...props}) => <h3 style={{ fontSize: '1.4rem', marginTop: '2.5rem', marginBottom: '1.25rem', color: 'var(--foreground)' }} {...props} />,
-            p: ({node, ...props}) => <p style={{ marginBottom: '1.5rem' }} {...props} />,
-            ul: ({node, ...props}) => <ul style={{ marginBottom: '1.5rem', paddingLeft: '1.5rem' }} {...props} />,
-            li: ({node, ...props}) => <li style={{ marginBottom: '0.5rem' }} {...props} />,
+            h2: (props) => <h2 style={{ fontSize: '1.8rem', marginTop: '3rem', marginBottom: '1.5rem', color: 'var(--foreground)' }} {...props} />,
+            h3: (props) => <h3 style={{ fontSize: '1.4rem', marginTop: '2.5rem', marginBottom: '1.25rem', color: 'var(--foreground)' }} {...props} />,
+            p: (props) => <p style={{ marginBottom: '1.5rem' }} {...props} />,
+            ul: (props) => <ul style={{ marginBottom: '1.5rem', paddingLeft: '1.5rem' }} {...props} />,
+            li: (props) => <li style={{ marginBottom: '0.5rem' }} {...props} />,
           }}
         >
           {article.content}

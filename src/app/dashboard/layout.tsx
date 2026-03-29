@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { 
   LayoutDashboard, 
   FileText, 
@@ -13,6 +14,14 @@ import {
   Heart,
   LogOut
 } from "lucide-react";
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Dashboard",
+  description: "Private dashboard for managing articles, categories, and platform settings.",
+  path: "/dashboard",
+  noIndex: true,
+});
 
 export default async function DashboardLayout({
   children,

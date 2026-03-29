@@ -5,10 +5,44 @@ import { getServerSession } from "next-auth";
 import LogoutButton from "@/components/shared/LogoutButton";
 import { LayoutDashboard, User } from "lucide-react";
 import { Providers } from "@/components/shared/Providers";
+import {
+  absoluteUrl,
+  defaultRobots,
+  getSiteUrl,
+  siteConfig,
+} from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "AI Blog Platform | Insights by AI",
-  description: "Explore the frontier of AI, Technology, and Creativity.",
+  metadataBase: getSiteUrl(),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  referrer: "origin-when-cross-origin",
+  keywords: [...siteConfig.keywords],
+  authors: [
+    {
+      name: siteConfig.creator,
+      url: absoluteUrl(),
+    },
+  ],
+  creator: siteConfig.creator,
+  publisher: siteConfig.creator,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  category: siteConfig.category,
+  robots: defaultRobots,
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [{ url: "/favicon.ico", type: "image/x-icon" }],
+    shortcut: ["/favicon.ico"],
+    apple: ["/favicon.ico"],
+  },
 };
 
 export default async function RootLayout({
@@ -19,22 +53,57 @@ export default async function RootLayout({
   const session = await getServerSession();
   const sessionUser = session?.user as { role?: string } | undefined;
   const isAdmin = sessionUser?.role === "ADMIN";
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    url: absoluteUrl(),
+    description: siteConfig.description,
+    inLanguage: "en",
+    publisher: {
+      "@type": "Person",
+      name: siteConfig.creator,
+      url: absoluteUrl(),
+    },
+  };
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: siteConfig.creator,
+    url: "https://hasan-ehsan.cloud",
+    email: "mailto:hasan.e7san@gmail.com",
+    jobTitle: "Full Stack Developer",
+    sameAs: siteConfig.sameAs,
+  };
 
   return (
     <html lang="en">
+      <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4305704904656915"
+          crossOrigin="anonymous"></script>
+      </head>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+
         <Providers>
           <nav className="nav">
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
               <Link href="/" style={{ fontSize: "1.25rem", fontWeight: "700", display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <span style={{ color: 'var(--accent)' }}>AI.</span>BLOG
               </Link>
-              
+
               <div style={{ display: "flex", gap: "2rem", alignItems: 'center' }}>
                 <Link href="/blogs" className="nav-link">Articles</Link>
                 <Link href="/categories" className="nav-link">Categories</Link>
                 <Link href="/search" className="nav-link">Search</Link>
-                
+
                 {!session ? (
                   <Link href="/login" className="btn btn-outline" style={{ padding: '0.5rem 1rem' }}>Admin Access</Link>
                 ) : (

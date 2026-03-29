@@ -1,5 +1,21 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "All Articles",
+  description:
+    "Browse published AI-generated articles, software engineering notes, and practical technology insights.",
+  path: "/blogs",
+  keywords: [
+    "articles",
+    "blog posts",
+    "AI articles",
+    "technology articles",
+    "software engineering insights",
+  ],
+});
 
 export default async function BlogsPage() {
   const articles = await prisma.article.findMany({

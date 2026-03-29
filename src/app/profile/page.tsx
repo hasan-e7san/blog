@@ -1,7 +1,16 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { User, Mail, Shield, Calendar, Heart, MessageSquare } from "lucide-react";
+import { User, Shield, Calendar, Heart, MessageSquare } from "lucide-react";
+import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Profile",
+  description: "Private profile page for account activity and personal details.",
+  path: "/profile",
+  noIndex: true,
+});
 
 export default async function ProfilePage() {
   const session = await getServerSession();

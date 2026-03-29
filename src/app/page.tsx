@@ -1,6 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import type { Metadata } from "next";
+import { buildPageMetadata, siteConfig } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: siteConfig.name,
+  description: siteConfig.description,
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default async function Home() {
   const categories = await prisma.category.findMany({
