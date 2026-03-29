@@ -47,13 +47,24 @@ export async function updateCategory(id: string, formData: FormData) {
 }
 
 export async function deleteCategory(id: string) {
+  const category = await prisma.category.findUnique({
+    where: { id },
+    select: { slug: true, name: true },
+  });
+
+  if (!category) {
+    throw new Error("Category not found.");
+  }
+
   // Check if category has articles
   const articlesCount = await prisma.article.count({
     where: { categoryId: id },
   });
 
   if (articlesCount > 0) {
-    throw new Error("Cannot delete category with existing articles.");
+    throw new Error(
+      `Cannot delete "${category.name}" because it still has ${articlesCount} article${articlesCount === 1 ? "" : "s"}.`
+    );
   }
 
   await prisma.category.delete({
@@ -61,4 +72,8 @@ export async function deleteCategory(id: string) {
   });
 
   revalidatePath("/dashboard/categories");
+  revalidatePath("/dashboard");
+  revalidatePath("/categories");
+  revalidatePath(`/categories/${category.slug}`);
+  revalidatePath("/");
 }
