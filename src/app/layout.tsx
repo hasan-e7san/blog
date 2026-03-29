@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
+import Script from "next/script";
 import { getServerSession } from "next-auth";
 import LogoutButton from "@/components/shared/LogoutButton";
 import { LayoutDashboard, User } from "lucide-react";
@@ -50,6 +51,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const googleAnalyticsId = "G-F50H2ZNE0S";
   const session = await getServerSession();
   const sessionUser = session?.user as { role?: string } | undefined;
   const isAdmin = sessionUser?.role === "ADMIN";
@@ -83,6 +85,18 @@ export default async function RootLayout({
           crossOrigin="anonymous"></script>
       </head>
       <body>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${googleAnalyticsId}');
+          `}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
