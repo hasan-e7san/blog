@@ -4,10 +4,12 @@ import { useState } from "react";
 import { registerUser } from "@/lib/actions/auth-actions";
 import { User, Mail, Lock, AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleSubmit(formData: FormData) {
     setError("");
@@ -15,11 +17,19 @@ export default function RegisterPage() {
     
     try {
       const res = await registerUser(formData);
-      if (res?.error) {
+      if ("error" in res) {
         setError(res.error);
+        return;
       }
+
+      router.push("/login");
+      router.refresh();
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      setError(
+        err instanceof Error && err.message
+          ? err.message
+          : "We couldn't create your account right now. Please try again in a moment."
+      );
     } finally {
       setLoading(false);
     }
@@ -51,7 +61,10 @@ export default function RegisterPage() {
             alignItems: 'center',
             gap: '0.75rem',
             fontSize: '0.85rem'
-          }}>
+          }}
+            role="alert"
+            aria-live="polite"
+          >
             <AlertCircle size={18} /> {error}
           </div>
         )}
