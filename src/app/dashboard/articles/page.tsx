@@ -20,7 +20,7 @@ export default async function DashboardArticlesPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+      <div className="section-row" style={{ marginBottom: '2.5rem' }}>
         <div>
           <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>Articles</h1>
           <p className="text-muted">Manage all your blog publications.</p>

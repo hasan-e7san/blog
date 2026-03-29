@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { createArticle } from "@/lib/actions/article-actions";
-import { ArrowLeft, Save, FileText, LayoutGrid, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Save, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 
 export default async function NewArticlePage() {
@@ -10,7 +10,7 @@ export default async function NewArticlePage() {
   });
 
   return (
-    <div style={{ maxWidth: '900px' }}>
+    <div className="form-shell">
       <div style={{ marginBottom: '2.5rem' }}>
         <Link href="/dashboard/articles" className="text-muted" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontSize: '0.9rem' }}>
           <ArrowLeft size={16} /> Back to Articles
@@ -18,8 +18,8 @@ export default async function NewArticlePage() {
         <h1 style={{ fontSize: '1.75rem' }}>Create New Article</h1>
       </div>
 
-      <form action={createArticle} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <form action={createArticle} className="editor-layout">
+        <div className="editor-main">
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label className="text-muted" style={{ fontSize: '0.85rem' }}>Article Title</label>
@@ -85,7 +85,7 @@ export default async function NewArticlePage() {
           </div>
         </div>
 
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <aside className="editor-sidebar">
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <h3 style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Save size={16} /> Publishing

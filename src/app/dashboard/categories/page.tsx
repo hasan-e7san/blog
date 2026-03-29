@@ -19,7 +19,7 @@ export default async function DashboardCategoriesPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+      <div className="section-row" style={{ marginBottom: '2.5rem' }}>
         <div>
           <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>Categories</h1>
           <p className="text-muted">Organize your content and control AI generation per category.</p>
@@ -29,7 +29,7 @@ export default async function DashboardCategoriesPage() {
         </Link>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+      <div className="content-grid">
         {categories.map((category) => (
           <div key={category.id} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>

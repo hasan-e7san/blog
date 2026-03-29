@@ -31,7 +31,7 @@ export default async function BlogsPage() {
         <p className="text-muted">A collection of AI-generated insights across various disciplines.</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "2.5rem" }}>
+      <div className="content-grid-wide">
         {articles.length === 0 ? (
           <div className="card" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '4rem' }}>
             <p className="text-muted">No articles published yet.</p>
@@ -52,7 +52,7 @@ export default async function BlogsPage() {
                 <p className="text-muted" style={{ fontSize: '0.9rem', marginBottom: '1.5rem', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                   {article.excerpt}
                 </p>
-                <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--card-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem' }} className="text-muted">
+                <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--card-border)', fontSize: '0.8rem' }} className="text-muted meta-split">
                   <span>By {article.author.name}</span>
                   <span>{article.publishedAt?.toLocaleDateString()}</span>
                 </div>

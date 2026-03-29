@@ -3,8 +3,7 @@ import {
   Save, 
   Globe, 
   Cpu, 
-  MessageSquare, 
-  ShieldCheck 
+  MessageSquare 
 } from "lucide-react";
 import { updateSettings } from "@/lib/actions/setting-actions";
 
@@ -19,9 +18,9 @@ export default async function DashboardSettingsPage() {
   };
 
   return (
-    <div style={{ maxWidth: '800px' }}>
+    <div className="form-shell-sm">
       <form action={updateSettings}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+        <div className="section-row" style={{ marginBottom: '2.5rem' }}>
           <div>
             <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>Platform Settings</h1>
             <p className="text-muted">Configure your site metadata, AI behavior, and system rules.</p>
@@ -64,7 +63,7 @@ export default async function DashboardSettingsPage() {
               <Cpu size={20} style={{ color: '#a855f7' }} /> AI Generation Rules
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="toggle-row">
                 <div>
                   <div style={{ fontWeight: '500' }}>AI Generation Cycle</div>
                   <div className="text-muted" style={{ fontSize: '0.8rem' }}>Automatically generate new articles every 3 days.</div>
@@ -72,7 +71,7 @@ export default async function DashboardSettingsPage() {
 
                 <input name="aiDailyGenerationEnabled" type="checkbox" defaultChecked={settings.aiDailyGenerationEnabled} style={{ width: '20px', height: '20px' }} />
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="toggle-row">
                 <div>
                   <div style={{ fontWeight: '500' }}>Auto-Publish AI Articles</div>
                   <div className="text-muted" style={{ fontSize: '0.8rem' }}>New articles go live immediately without review.</div>
@@ -97,7 +96,7 @@ export default async function DashboardSettingsPage() {
               <MessageSquare size={20} style={{ color: '#ec4899' }} /> Community & Moderation
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="toggle-row">
                 <div>
                   <div style={{ fontWeight: '500' }}>Enable Comments</div>
                   <div className="text-muted" style={{ fontSize: '0.8rem' }}>Allow readers to post comments on your articles.</div>

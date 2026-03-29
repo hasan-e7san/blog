@@ -25,7 +25,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
   });
 
   return (
-    <div style={{ maxWidth: '900px' }}>
+    <div className="form-shell">
       <div style={{ marginBottom: '2.5rem' }}>
         <Link href="/dashboard/articles" className="text-muted" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontSize: '0.9rem' }}>
           <ArrowLeft size={16} /> Back to Articles
@@ -34,8 +34,8 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
         <p className="text-muted" style={{ fontSize: '0.9rem' }}>ID: {article.id}</p>
       </div>
 
-      <form action={updateArticle.bind(null, article.id)} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <form action={updateArticle.bind(null, article.id)} className="editor-layout">
+        <div className="editor-main">
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label className="text-muted" style={{ fontSize: '0.85rem' }}>Article Title</label>
@@ -101,7 +101,7 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
           </div>
         </div>
 
-        <aside style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <aside className="editor-sidebar">
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <h3 style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Save size={16} /> Publishing

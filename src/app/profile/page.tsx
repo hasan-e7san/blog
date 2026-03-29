@@ -39,7 +39,7 @@ export default async function ProfilePage() {
         <p className="text-muted">Manage your personal information and see your activity.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
+      <div className="profile-layout">
         {/* Profile Card */}
         <aside>
           <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
@@ -64,11 +64,11 @@ export default async function ProfilePage() {
               <Shield size={18} className="text-muted" /> Account Information
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem' }}>
+              <div className="info-row" style={{ fontSize: '0.95rem' }}>
                 <span className="text-muted">Status</span>
                 <span style={{ color: '#10b981' }}>{user.status}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.95rem' }}>
+              <div className="info-row" style={{ fontSize: '0.95rem' }}>
                 <span className="text-muted">Joined Date</span>
                 <span>{user.createdAt.toLocaleDateString()}</span>
               </div>
@@ -79,7 +79,7 @@ export default async function ProfilePage() {
             <h3 style={{ fontSize: '1.1rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <Calendar size={18} className="text-muted" /> Your Activity
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="profile-stats">
               <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '8px', textAlign: 'center', border: '1px solid var(--card-border)' }}>
                 <Heart size={24} style={{ color: '#ef4444', marginBottom: '0.5rem' }} />
                 <div style={{ fontSize: '1.5rem', fontWeight: '700' }}>{user._count.likes}</div>

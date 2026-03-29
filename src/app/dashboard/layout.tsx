@@ -47,10 +47,10 @@ export default async function DashboardLayout({
   ];
 
   return (
-    <div style={{ display: 'flex', minHeight: '80vh', gap: '2rem', padding: '2rem 0' }}>
+    <div className="dashboard-shell">
       {/* Sidebar */}
-      <aside style={{ width: '240px', flexShrink: 0 }}>
-        <div className="card" style={{ padding: '1rem', position: 'sticky', top: '6rem' }}>
+      <aside className="dashboard-sidebar">
+        <div className="card dashboard-panel">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {menuItems.map((item) => (
               <Link 
@@ -91,7 +91,7 @@ export default async function DashboardLayout({
       </aside>
 
       {/* Main Content */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div className="dashboard-main">
         {children}
       </div>
     </div>

@@ -26,15 +26,9 @@ export default async function Home() {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8rem' }}>
+    <div className="page-stack">
       {/* Hero Section */}
-      <section style={{ 
-        textAlign: 'center', 
-        padding: '6rem 0',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}>
+      <section className="hero-section">
         <div className="badge" style={{ marginBottom: '1.5rem', background: 'rgba(59, 130, 246, 0.1)', color: 'var(--accent)', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
           <Sparkles size={14} style={{ marginRight: '0.5rem' }} />
           Powered by GPT-4 & DALL-E
@@ -45,7 +39,7 @@ export default async function Home() {
         <p className="text-muted" style={{ fontSize: '1.25rem', maxWidth: '600px', marginBottom: '3rem' }}>
           Daily insights on technology, development, and storytelling, generated and curated by advanced AI models.
         </p>
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div className="hero-actions">
           <Link href="/blogs" className="btn btn-primary" style={{ gap: '0.5rem' }}>
             Browse Articles <ArrowRight size={18} />
           </Link>
@@ -59,7 +53,7 @@ export default async function Home() {
       <div className="grid-main">
         {/* Latest Articles */}
         <section>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+          <div className="section-row" style={{ marginBottom: '2.5rem' }}>
             <h2 style={{ fontSize: '1.75rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <TrendingUp size={24} className="text-muted" /> Latest Publications
             </h2>
@@ -73,14 +67,18 @@ export default async function Home() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
               {latestArticles.map((article) => (
-                <Link key={article.id} href={`/blogs/${article.slug}`} className="card" style={{ display: 'grid', gridTemplateColumns: article.coverImage ? '1fr 2fr' : '1fr', gap: '2rem', padding: '1rem' }}>
+                <Link
+                  key={article.id}
+                  href={`/blogs/${article.slug}`}
+                  className={`card feature-card${article.coverImage ? " with-image" : ""}`}
+                >
                   {article.coverImage && (
                     <div style={{ borderRadius: '8px', overflow: 'hidden', height: '200px' }}>
                       <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   )}
                   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '1rem' }}>
-                    <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem' }}>
+                    <div className="meta-row" style={{ marginBottom: '1rem' }}>
                       <span className="badge">{article.category.name}</span>
                       <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '4px' }}>{article.publishedAt?.toLocaleDateString()}</span>
                     </div>

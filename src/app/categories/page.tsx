@@ -22,7 +22,7 @@ export default async function CategoriesPage() {
       <div className="prompt">$ ls -F /var/www/html/categories/</div>
       <h1 style={{ marginBottom: "2rem" }}>CATEGORIES</h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "1.5rem" }}>
+      <div className="content-grid">
         {categories.map((cat) => (
           <Link key={cat.id} href={`/categories/${cat.slug}`} className="card" style={{ display: "block" }}>
             <div style={{ color: "var(--accent-color)", marginBottom: "0.5rem" }}>$ cd {cat.slug}/</div>

@@ -21,7 +21,7 @@ export default async function AuthorsPage() {
       <div className="prompt">$ finger --all users</div>
       <h1 style={{ marginBottom: "2rem" }}>AUTHORS</h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "1.5rem" }}>
+      <div className="content-grid">
         {authors.map((author) => (
           <div key={author.id} className="card">
             <div style={{ color: "var(--accent-color)", marginBottom: "0.5rem" }}>$ whois {author.name?.toLowerCase().replace(/ /g, "_")}</div>
