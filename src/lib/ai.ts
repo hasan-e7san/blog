@@ -107,7 +107,7 @@ export async function generateArticle(categoryId: string, authorId: string) {
       size: "1024x1024",
     });
     
-    const tempUrl = imageResponse.data[0].url;
+    const tempUrl = imageResponse.data?.[0]?.url;
     if (tempUrl) {
       const filename = `img-${Date.now()}.png`;
       localImagePath = await downloadImage(tempUrl, filename);
