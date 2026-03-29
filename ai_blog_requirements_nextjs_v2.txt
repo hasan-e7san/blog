@@ -1,0 +1,495 @@
+
+AI BLOG PLATFORM - FULL REQUIREMENTS
+
+====================
+PROJECT OVERVIEW
+====================
+Name: AI Blog Platform
+Domain: blog.hasan-ehsan.cloud
+
+Purpose:
+- Build the project in Next.js
+- Blog platform with AI-generated articles
+- Daily generation: 1 article for each category
+- Dashboard for full control
+
+====================
+CORE AI CONTENT RULE
+====================
+
+The system must generate AI articles for every active category with AI enabled.
+
+Required rule:
+- each active category with AI enabled must receive 1 generated article every day
+
+This requirement applies to:
+- technology categories
+- story categories
+- any future categories added by admin
+
+====================
+TECH STACK
+====================
+
+Framework:
+- Next.js
+
+Recommended App Style:
+- Next.js App Router
+- Full-stack Next.js application
+- API routes or server actions for backend logic
+
+Database:
+- SQLite
+
+ORM:
+- Prisma
+
+Authentication:
+- NextAuth or custom JWT/session auth
+
+AI Integration:
+- OpenAI GPT API for article generation
+- OpenAI image generation API or another image provider
+
+Scheduler:
+- Cron job or scheduled task for daily generation
+
+====================
+MODULES
+====================
+
+Public:
+- Home
+- Blogs
+- Blog Details
+- Categories
+- Category Details
+- Authors
+- Author Profile
+- Search
+- Auth
+- Profile
+- Static Pages
+
+Dashboard:
+- Dashboard Overview
+- Categories
+- Articles
+- Users
+- Comments
+- Likes
+- Media
+- AI Generation
+- Settings
+
+System:
+- Auth
+- RBAC
+- Scheduler
+- AI Integration
+- Seeders
+- Logging
+- SEO
+
+====================
+PAGES / ROUTES
+====================
+
+Public Pages:
+- /
+- /blogs
+- /blogs/[slug]
+- /categories
+- /categories/[slug]
+- /authors
+- /authors/[id]
+- /search
+- /login
+- /register
+- /profile
+- /about
+- /contact
+- /privacy-policy
+- /terms
+
+Dashboard Pages:
+- /dashboard
+- /dashboard/categories
+- /dashboard/articles
+- /dashboard/users
+- /dashboard/comments
+- /dashboard/likes
+- /dashboard/media
+- /dashboard/ai
+- /dashboard/settings
+
+API Routes:
+- /api/auth/register
+- /api/auth/login
+- /api/auth/logout
+- /api/articles
+- /api/articles/[id]
+- /api/articles/[id]/like
+- /api/articles/[id]/comments
+- /api/comments/[id]
+- /api/categories
+- /api/categories/[id]
+- /api/users/[id]
+- /api/admin/dashboard
+- /api/admin/ai/logs
+- /api/admin/ai/generate
+- /api/admin/settings
+
+====================
+FEATURES
+====================
+
+Public Features:
+- View articles
+- View article details
+- Browse categories
+- Browse authors
+- Search articles
+- Like/unlike articles
+- Add comments
+- User registration and login
+- View and update profile
+
+Dashboard Features:
+- Manage categories
+- Manage articles
+- Manage users
+- Manage comments
+- Manage likes
+- Manage media
+- Manage AI settings
+- Trigger article generation manually
+- View AI generation logs
+- Manage site settings
+
+====================
+DATABASE TABLES
+====================
+
+User:
+- id
+- name
+- email
+- password
+- avatar
+- bio
+- role
+- status
+- createdAt
+- updatedAt
+
+Category:
+- id
+- name
+- slug
+- description
+- coverImage
+- isActive
+- aiEnabled
+- createdAt
+- updatedAt
+
+Article:
+- id
+- title
+- slug
+- excerpt
+- content
+- coverImage
+- status
+- publishAt
+- publishedAt
+- seoTitle
+- seoDescription
+- aiGenerated
+- generationPrompt
+- imagePrompt
+- categoryId
+- authorId
+- createdAt
+- updatedAt
+
+Tag:
+- id
+- name
+- slug
+
+ArticleTag:
+- id
+- articleId
+- tagId
+
+Comment:
+- id
+- content
+- status
+- userId
+- articleId
+- parentCommentId
+- createdAt
+- updatedAt
+
+Like:
+- id
+- userId
+- articleId
+- createdAt
+
+Media:
+- id
+- articleId
+- url
+- altText
+- type
+- isAIImage
+- createdAt
+- updatedAt
+
+AIJobLog:
+- id
+- status
+- errorMessage
+- rawPrompt
+- rawResponse
+- categoryId
+- articleId
+- startedAt
+- completedAt
+
+Setting:
+- id
+- siteName
+- siteDescription
+- logo
+- defaultSeoTitle
+- defaultSeoDescription
+- commentsEnabled
+- autoPublishAI
+- aiDailyGenerationEnabled
+- postsPerCategoryPerDay
+- createdAt
+- updatedAt
+
+====================
+AI GENERATION REQUIREMENTS
+====================
+
+Daily Flow:
+- Runs once per day
+- For each active category with AI enabled:
+  - generate 1 article
+  - generate title
+  - generate excerpt
+  - generate content
+  - generate SEO title
+  - generate SEO description
+  - generate tags
+  - generate image prompt
+  - generate image
+  - save article
+  - publish directly or save as draft
+  - create log record
+
+Required rule:
+- the AI must generate 1 article for each active category with AI enabled every day
+- the scheduler must loop through all active AI-enabled categories
+- no category should be skipped unless disabled or inactive
+
+Rules:
+- 1 article per category per day
+- prevent duplicates
+- log success/failure
+- support retry
+- support manual generation from dashboard
+
+====================
+SEEDERS
+====================
+
+Admin Seeder:
+- creates default admin
+- password must be hashed
+- must not create duplicates when re-run
+
+Category Seeder:
+- seeds default categories
+- must not create duplicates when re-run
+- supports AI enabled flag
+- must include technology categories
+- must include story categories
+
+Required seeded category groups:
+
+Technology categories:
+- AI
+- Technology
+- Programming
+- Web Development
+- Mobile Development
+- Cybersecurity
+- Cloud Computing
+- Data Science
+- Startups
+- Gadgets
+
+Story categories:
+- Funny Stories
+- Scary Stories
+- Mystery Stories
+- Adventure Stories
+- Romantic Stories
+- Drama Stories
+- Inspirational Stories
+- Kids Stories
+- Fantasy Stories
+- Short Stories
+
+Seeder behavior:
+- all seeded categories should be active by default
+- all seeded categories should have AI enabled by default
+- slugs must be created correctly
+- re-running the seeder must not create duplicates
+
+Seeder Requirements:
+- run all seeders together
+- run admin seeder only
+- run category seeder only
+
+====================
+PROJECT STRUCTURE
+====================
+
+app/
+  (public)/
+    page.tsx
+    blogs/
+      page.tsx
+      [slug]/
+        page.tsx
+    categories/
+      page.tsx
+      [slug]/
+        page.tsx
+    authors/
+      page.tsx
+      [id]/
+        page.tsx
+    search/
+      page.tsx
+    login/
+      page.tsx
+    register/
+      page.tsx
+    profile/
+      page.tsx
+    about/
+      page.tsx
+    contact/
+      page.tsx
+    privacy-policy/
+      page.tsx
+    terms/
+      page.tsx
+
+  dashboard/
+    page.tsx
+    categories/
+      page.tsx
+    articles/
+      page.tsx
+    users/
+      page.tsx
+    comments/
+      page.tsx
+    likes/
+      page.tsx
+    media/
+      page.tsx
+    ai/
+      page.tsx
+    settings/
+      page.tsx
+
+  api/
+    auth/
+      register/route.ts
+      login/route.ts
+      logout/route.ts
+    articles/
+      route.ts
+      [id]/
+        route.ts
+      [id]/like/
+        route.ts
+      [id]/comments/
+        route.ts
+    comments/
+      [id]/
+        route.ts
+    categories/
+      route.ts
+      [id]/
+        route.ts
+    admin/
+      dashboard/route.ts
+      ai/
+        logs/route.ts
+        generate/route.ts
+      settings/
+        route.ts
+
+components/
+  ui/
+  public/
+  dashboard/
+  forms/
+  shared/
+
+lib/
+  auth/
+  prisma/
+  ai/
+  seo/
+  utils/
+  validations/
+
+prisma/
+  schema.prisma
+  seed.ts
+
+types/
+
+====================
+DELIVERABLES
+====================
+
+The project must include:
+- Full-stack Next.js application
+- App Router structure
+- Public website
+- Dashboard
+- Prisma schema
+- SQLite database
+- Seeders
+- Auth system
+- AI integration
+- Daily scheduler
+- CRUD APIs
+- SEO-ready pages
+- Clean reusable components
+
+====================
+IMPLEMENTATION NOTE FOR AI AGENT
+====================
+
+Important implementation rule:
+- create the category seeder with both technology categories and story categories
+- make all seeded categories active and AI enabled by default
+- implement the daily AI generation so it creates 1 article for each active AI-enabled category
+- this includes all seeded categories and any new category created later by admin

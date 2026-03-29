@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  avatar        String?
+  bio           String?
+  role          String    @default("USER") // ADMIN, AUTHOR, USER
+  status        String    @default("ACTIVE") // ACTIVE, INACTIVE, SUSPENDED
+  articles      Article[]
+  comments      Comment[]
+  likes         Like[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Category {
+  id             String      @id @default(cuid())
+  name           String      @unique
+  slug           String      @unique
+  description    String?
+  coverImage     String?
+  isActive       Boolean     @default(true)
+  aiEnabled      Boolean     @default(true)
+  articles       Article[]
+  aiJobLogs      AIJobLog[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Article {
+  id               String       @id @default(cuid())
+  title            String
+  slug             String       @unique
+  excerpt          String?
+  content          String
+  coverImage       String?
+  status           String       @default("DRAFT") // DRAFT, PUBLISHED, SCHEDULED
+  publishAt        DateTime?
+  publishedAt      DateTime?
+  seoTitle         String?
+  seoDescription   String?
+  aiGenerated      Boolean      @default(false)
+  generationPrompt String?
+  imagePrompt      String?
+  category         Category     @relation(fields: [categoryId], references: [id])
+  categoryId       String
+  author           User         @relation(fields: [authorId], references: [id])
+  authorId         String
+  tags             ArticleTag[]
+  comments         Comment[]
+  likes            Like[]
+  media            Media[]
+  aiJobLogs        AIJobLog[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model Tag {
+  id       String       @id @default(cuid())
+  name     String       @unique
+  slug     String       @unique
+  articles ArticleTag[]
+}
+
+model ArticleTag {
+  id        String  @id @default(cuid())
+  article   Article @relation(fields: [articleId], references: [id])
+  articleId String
+  tag       Tag     @relation(fields: [tagId], references: [id])
+  tagId     String
+
+  @@unique([articleId, tagId])
+}
+
+model Comment {
+  id              String    @id @default(cuid())
+  content         String
+  status          String    @default("PENDING") // PENDING, APPROVED, SPAM
+  user            User      @relation(fields: [userId], references: [id])
+  userId          String
+  article         Article   @relation(fields: [articleId], references: [id])
+  articleId       String
+  parentComment   Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id])
+  parentCommentId String?
+  replies         Comment[] @relation("CommentReplies")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  article   Article  @relation(fields: [articleId], references: [id])
+  articleId String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, articleId])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  altText   String?
+  type      String   @default("IMAGE") // IMAGE, VIDEO
+  isAIImage Boolean  @default(false)
+  article   Article? @relation(fields: [articleId], references: [id])
+  articleId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AIJobLog {
+  id           String    @id @default(cuid())
+  status       String    @default("PENDING") // PENDING, SUCCESS, FAILED
+  errorMessage String?
+  rawPrompt    String?
+  rawResponse  String?
+  category     Category? @relation(fields: [categoryId], references: [id])
+  categoryId   String?
+  article      Article?  @relation(fields: [articleId], references: [id])
+  articleId    String?
+  startedAt    DateTime  @default(now())
+  completedAt  DateTime?
+}
+
+model Setting {
+  id                        String   @id @default(cuid())
+  siteName                  String   @default("AI Blog Platform")
+  siteDescription           String?
+  logo                      String?
+  defaultSeoTitle           String?
+  defaultSeoDescription     String?
+  commentsEnabled           Boolean  @default(true)
+  autoPublishAI             Boolean  @default(true)
+  aiDailyGenerationEnabled  Boolean  @default(true)
+  postsPerCategoryPerDay    Int      @default(1)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+}
