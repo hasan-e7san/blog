@@ -43,6 +43,9 @@ export default async function Home() {
           <Link href="/blogs" className="btn btn-primary" style={{ gap: '0.5rem' }}>
             Browse Articles <ArrowRight size={18} />
           </Link>
+          <Link href="/about" className="btn btn-outline">
+            How it works
+          </Link>
         </div>
       </section>
 
@@ -100,6 +103,21 @@ export default async function Home() {
                   {cat.name} <span style={{ marginLeft: '0.5rem', opacity: 0.5 }}>{cat._count.articles}</span>
                 </Link>
               ))}
+            </div>
+          </div>
+
+          <div className="card" style={{ background: 'linear-gradient(135deg, #111111 0%, #0a0a0a 100%)', border: '1px solid var(--accent)' }}>
+            <h3 style={{ marginBottom: '1rem' }}>Daily Newsletter</h3>
+            <p className="text-muted" style={{ fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+              Get the most interesting AI-generated insights delivered to your inbox every morning.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <input 
+                type="email" 
+                placeholder="email@example.com" 
+                style={{ background: '#1a1a1a', border: '1px solid #222', borderRadius: '8px', padding: '0.75rem', color: 'white' }} 
+              />
+              <button className="btn btn-primary">Subscribe</button>
             </div>
           </div>
 
