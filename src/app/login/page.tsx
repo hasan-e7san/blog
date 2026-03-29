@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Lock, Mail, AlertCircle, Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -77,7 +78,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@hasan-ehsan.cloud"
+              placeholder="test@example.com"
               style={{
                 width: "100%",
                 padding: "0.75rem 1rem",
@@ -125,14 +126,12 @@ export default function LoginPage() {
               gap: '0.75rem'
             }}
           >
-            {loading ? <Loader2 className="animate-spin" size={18} /> : "Sign In to Dashboard"}
+            {loading ? <Loader2 className="animate-spin" size={18} /> : "Sign In"}
           </button>
         </form>
 
         <div style={{ marginTop: "2.5rem", padding: '1.5rem', borderTop: "1px solid var(--card-border)", fontSize: "0.85rem", textAlign: 'center' }}>
-          <p className="text-muted">
-            Internal use only. Default: <code style={{ color: 'var(--accent)', background: 'rgba(59, 130, 246, 0.1)', padding: '0.2rem 0.4rem', borderRadius: '4px' }}>admin123</code>
-          </p>
+         <Link href="/register">Register </Link>
         </div>
       </div>
     </div>

@@ -40,11 +40,11 @@ export default async function DashboardPage() {
     <div style={{ paddingBottom: '4rem' }}>
       <div style={{ marginBottom: '3rem' }}>
         <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Dashboard Overview</h1>
-        <p className="text-muted">Welcome back, {session.user?.name || 'Admin'}. Here's what's happening today.</p>
+        <p className="text-muted">Welcome back, {session.user?.name || 'Admin'}. Here&apos;s what&apos;s happening today.</p>
       </div>
 
       {/* Stats Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.5rem", marginBottom: "4rem" }}>
+      <div className="dashboard-stats">
         <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           <div style={{ background: 'rgba(59, 130, 246, 0.1)', color: 'var(--accent)', padding: '1rem', borderRadius: '12px' }}>
             <FileText size={24} />
@@ -86,7 +86,7 @@ export default async function DashboardPage() {
       <div className="grid-main">
         {/* Activity Logs */}
         <section>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <div className="section-row" style={{ marginBottom: '2rem' }}>
             <h2 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <Activity size={20} className="text-muted" /> AI Generation Logs
             </h2>
@@ -146,7 +146,7 @@ export default async function DashboardPage() {
         {/* Quick Actions */}
         <aside style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           <h3 style={{ fontSize: '1.1rem', color: 'var(--muted-foreground)' }}>QUICK ACTIONS</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div className="dashboard-actions">
             <Link href="/dashboard/ai" className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <Zap size={18} style={{ color: 'var(--accent)' }} />

@@ -9,8 +9,17 @@ import Link from "next/link";
 interface EngagementSectionProps {
   articleId: string;
   initialLikes: number;
-  initialComments: any[];
+  initialComments: EngagementComment[];
   isLiked: boolean;
+}
+
+interface EngagementComment {
+  id: string;
+  content: string;
+  createdAt: string | Date;
+  user: {
+    name: string | null;
+  };
 }
 
 export default function EngagementSection({ 
@@ -22,7 +31,7 @@ export default function EngagementSection({
   const { data: session } = useSession();
   const [isLiked, setIsLiked] = useState(initialIsLiked);
   const [likesCount, setLikesCount] = useState(initialLikes);
-  const [comments, setComments] = useState(initialComments);
+  const [comments] = useState(initialComments);
   const [commentText, setCommentText] = useState("");
 
   const handleLike = async () => {
@@ -62,7 +71,7 @@ export default function EngagementSection({
 
   return (
     <div style={{ marginTop: '4rem' }}>
-      <div style={{ display: 'flex', gap: '2rem', borderTop: '1px solid var(--card-border)', borderBottom: '1px solid var(--card-border)', padding: '1.5rem 0', marginBottom: '3rem' }}>
+      <div className="engagement-summary">
         <button 
           onClick={handleLike}
           style={{ 
@@ -88,7 +97,7 @@ export default function EngagementSection({
         <h3 style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>Discussion</h3>
         
         {session ? (
-          <form onSubmit={handleComment} style={{ display: 'flex', gap: '1rem', marginBottom: '3rem' }}>
+          <form onSubmit={handleComment} className="engagement-form">
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--card-border)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                <User size={20} className="text-muted" />
             </div>
@@ -126,14 +135,14 @@ export default function EngagementSection({
           </div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div className="comment-list">
           {comments.map((comment) => (
-            <div key={comment.id} style={{ display: 'flex', gap: '1rem' }}>
+            <div key={comment.id} className="comment-item">
               <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--card-border)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                  <User size={20} className="text-muted" />
               </div>
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                <div className="comment-meta">
                   <span style={{ fontWeight: '600', fontSize: '0.95rem' }}>{comment.user.name || 'Anonymous'}</span>
                   <span className="text-muted" style={{ fontSize: '0.8rem' }}>{new Date(comment.createdAt).toLocaleDateString()}</span>
                 </div>

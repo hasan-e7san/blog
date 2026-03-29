@@ -3,9 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 
+interface SearchResult {
+  id: string;
+  slug: string;
+  title: string;
+  publishedAt: string;
+  category: {
+    name: string;
+  };
+}
+
 export default function SearchPage() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [searching, setSearching] = useState(false);
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -29,10 +39,10 @@ export default function SearchPage() {
 
   return (
     <div>
-      <div className="prompt">$ find / -name "{query || "*"}"</div>
+      <div className="prompt">$ find / -name &quot;{query || "*"}&quot;</div>
       <h1 style={{ marginBottom: "2rem" }}>SEARCH</h1>
 
-      <form onSubmit={handleSearch} style={{ display: "flex", gap: "1rem", marginBottom: "3rem" }}>
+      <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"
           value={query}
@@ -41,20 +51,23 @@ export default function SearchPage() {
           style={{
             flex: 1,
             padding: "0.8rem",
-            background: "#161b22",
-            border: "1px solid #30363d",
-            color: "var(--text-color)",
+            background: "#000",
+            border: "1px solid var(--card-border)",
+            borderRadius: "12px",
+            color: "var(--foreground)",
             fontFamily: "var(--font-mono)",
             outline: "none",
           }}
         />
         <button
           type="submit"
+          className="search-button"
           style={{
-            background: "var(--command-color)",
+            background: "var(--accent)",
             color: "white",
             padding: "0.8rem 2rem",
             border: "none",
+            borderRadius: "12px",
             fontFamily: "var(--font-mono)",
             fontWeight: "bold",
             cursor: "pointer",
@@ -81,7 +94,7 @@ export default function SearchPage() {
             ))}
           </div>
         ) : query ? (
-          <p style={{ color: "#8b949e" }}>[SYSTEM] No results found for "{query}". Try another query.</p>
+          <p style={{ color: "#8b949e" }}>[SYSTEM] No results found for &quot;{query}&quot;. Try another query.</p>
         ) : null}
       </div>
     </div>

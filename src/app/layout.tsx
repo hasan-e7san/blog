@@ -94,37 +94,48 @@ export default async function RootLayout({
 
         <Providers>
           <nav className="nav">
-            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-              <Link href="/" style={{ fontSize: "1.25rem", fontWeight: "700", display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className="container site-nav-inner">
+              <Link href="/" className="site-brand">
                 <span style={{ color: 'var(--accent)' }}>AI.</span>BLOG
               </Link>
 
-              <div style={{ display: "flex", gap: "2rem", alignItems: 'center' }}>
-                <Link href="/blogs" className="nav-link">Articles</Link>
-                <Link href="/categories" className="nav-link">Categories</Link>
-                <Link href="/search" className="nav-link">Search</Link>
+              <div className="site-nav-menu">
+                <div className="site-nav-links">
+                  <Link href="/blogs" className="nav-link">Articles</Link>
+                  <Link href="/categories" className="nav-link">Categories</Link>
+                  <Link href="/search" className="nav-link">Search</Link>
+                </div>
 
-                {!session ? (
-                  <Link href="/login" className="btn btn-outline" style={{ padding: '0.5rem 1rem' }}>Admin Access</Link>
-                ) : (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    {isAdmin ? (
-                      <>
-                        <Link href="/dashboard" className="btn btn-primary" style={{ padding: '0.5rem 1rem', gap: '0.5rem' }}>
-                          <LayoutDashboard size={16} /> Dashboard
-                        </Link>
-                        <LogoutButton />
-                      </>
-                    ) : (
-                      <>
-                        <Link href="/profile" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <User size={18} /> Profile
-                        </Link>
-                        <LogoutButton />
-                      </>
-                    )}
-                  </div>
-                )}
+                <div className="site-nav-actions">
+                  {!session ? (
+                    <>
+                      <Link href="/login" className="btn btn-outline" style={{ padding: '0.5rem 1rem' }}>
+                        Log In
+                      </Link>
+                      <Link href="/register" className="btn btn-primary" style={{ padding: '0.5rem 1rem' }}>
+                        Register
+                      </Link>
+                    </>
+                  ) : (
+                    <div className="site-nav-session">
+                      {isAdmin ? (
+                        <>
+                          <Link href="/dashboard" className="btn btn-primary" style={{ padding: '0.5rem 1rem', gap: '0.5rem' }}>
+                            <LayoutDashboard size={16} /> Dashboard
+                          </Link>
+                          <LogoutButton />
+                        </>
+                      ) : (
+                        <>
+                          <Link href="/profile" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <User size={18} /> Profile
+                          </Link>
+                          <LogoutButton />
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </nav>
@@ -133,7 +144,7 @@ export default async function RootLayout({
 
           <footer style={{ marginTop: "8rem", borderTop: "1px solid var(--card-border)", padding: "4rem 0" }}>
             <div className="container">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '4rem' }}>
+              <div className="site-footer-grid">
                 <div>
                   <Link href="/" style={{ fontSize: "1.25rem", fontWeight: "700", marginBottom: '1rem', display: 'block' }}>
                     Hasan Ehsan
