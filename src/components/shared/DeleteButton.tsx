@@ -6,10 +6,18 @@ interface DeleteButtonProps {
   action: (id: string) => Promise<void>;
   id: string;
   confirmMessage?: string;
+  label?: string;
+  title?: string;
 }
 
-export default function DeleteButton({ action, id, confirmMessage = "Are you sure you want to delete this item?" }: DeleteButtonProps) {
-  const handleDelete = async (formData: FormData) => {
+export default function DeleteButton({
+  action,
+  id,
+  confirmMessage = "Are you sure you want to delete this item?",
+  label,
+  title = "Delete",
+}: DeleteButtonProps) {
+  const handleDelete = async () => {
     if (window.confirm(confirmMessage)) {
       await action(id);
     }
@@ -19,10 +27,11 @@ export default function DeleteButton({ action, id, confirmMessage = "Are you sur
     <form action={handleDelete}>
       <button 
         type="submit"
-        className="text-muted" 
-        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}
+        className="action-button action-button-danger"
+        title={title}
       >
         <Trash2 size={18} />
+        {label ? <span>{label}</span> : null}
       </button>
     </form>
   );

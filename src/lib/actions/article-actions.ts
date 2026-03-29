@@ -40,6 +40,7 @@ export async function createArticle(formData: FormData) {
 
   revalidatePath("/dashboard/articles");
   revalidatePath("/blogs");
+  revalidatePath("/");
   redirect("/dashboard/articles");
 }
 
@@ -70,13 +71,46 @@ export async function updateArticle(id: string, formData: FormData) {
   revalidatePath("/dashboard/articles");
   revalidatePath(`/blogs/${article.slug}`);
   revalidatePath("/blogs");
+  revalidatePath("/");
   redirect("/dashboard/articles");
 }
 
 export async function deleteArticle(id: string) {
-  await prisma.article.delete({
+  const article = await prisma.article.findUnique({
     where: { id },
+    select: { slug: true },
+  });
+
+  if (!article) throw new Error("Article not found");
+
+  await prisma.$transaction(async (tx) => {
+    await tx.aIJobLog.deleteMany({
+      where: { articleId: id },
+    });
+
+    await tx.articleTag.deleteMany({
+      where: { articleId: id },
+    });
+
+    await tx.like.deleteMany({
+      where: { articleId: id },
+    });
+
+    await tx.comment.deleteMany({
+      where: { articleId: id },
+    });
+
+    await tx.media.deleteMany({
+      where: { articleId: id },
+    });
+
+    await tx.article.delete({
+      where: { id },
+    });
   });
 
   revalidatePath("/dashboard/articles");
+  revalidatePath(`/blogs/${article.slug}`);
+  revalidatePath("/blogs");
+  revalidatePath("/");
 }

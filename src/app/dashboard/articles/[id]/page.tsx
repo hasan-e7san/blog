@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { updateArticle } from "@/lib/actions/article-actions";
+import { deleteArticle, updateArticle } from "@/lib/actions/article-actions";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Save, ImageIcon } from "lucide-react";
+import { ArrowLeft, Save, ImageIcon, TriangleAlert } from "lucide-react";
 import Link from "next/link";
+import DeleteButton from "@/components/shared/DeleteButton";
 
 interface EditArticlePageProps {
   params: Promise<{ id: string }>;
@@ -150,10 +151,26 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
               />
               {article.coverImage && (
                 <div style={{ marginTop: '1rem', borderRadius: '8px', overflow: 'hidden', height: '120px' }}>
-                   <img src={article.coverImage} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                   <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               )}
             </div>
+          </div>
+
+          <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', borderColor: 'rgba(239, 68, 68, 0.25)' }}>
+            <h3 style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#f87171' }}>
+              <TriangleAlert size={16} /> Danger Zone
+            </h3>
+            <p className="text-muted" style={{ fontSize: '0.8rem' }}>
+              Permanently delete this article from the dashboard.
+            </p>
+            <DeleteButton
+              action={deleteArticle}
+              id={article.id}
+              label="Delete Article"
+              title="Delete article"
+              confirmMessage="Are you sure you want to delete this article? This action cannot be undone."
+            />
           </div>
         </aside>
       </form>

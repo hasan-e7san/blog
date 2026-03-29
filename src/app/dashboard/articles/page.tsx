@@ -31,7 +31,8 @@ export default async function DashboardArticlesPage() {
       </div>
 
       <div className="card" style={{ padding: '0' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+        <div className="table-scroll">
+        <table className="admin-table">
           <thead>
             <tr style={{ borderBottom: '1px solid var(--card-border)', textAlign: 'left', color: 'var(--muted-foreground)' }}>
               <th style={{ padding: '1.25rem' }}>Article</th>
@@ -55,7 +56,7 @@ export default async function DashboardArticlesPage() {
                     <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                       {article.coverImage ? (
                         <div style={{ width: '40px', height: '40px', borderRadius: '4px', overflow: 'hidden', flexShrink: 0 }}>
-                          <img src={article.coverImage} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </div>
                       ) : (
                         <div style={{ width: '40px', height: '40px', borderRadius: '4px', background: 'var(--card-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -90,16 +91,20 @@ export default async function DashboardArticlesPage() {
                     </div>
                   </td>
                   <td style={{ padding: '1.25rem' }}>
-                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                      <Link href={`/blogs/${article.slug}`} className="text-muted" title="View">
-                        <Eye size={18} />
+                    <div className="action-group">
+                      <Link href={`/blogs/${article.slug}`} className="action-link" title="View article">
+                        <Eye size={16} />
+                        <span>View</span>
                       </Link>
-                      <Link href={`/dashboard/articles/${article.id}`} className="text-muted" title="Edit">
-                        <Edit2 size={18} />
+                      <Link href={`/dashboard/articles/${article.id}`} className="action-link" title="Edit article">
+                        <Edit2 size={16} />
+                        <span>Edit</span>
                       </Link>
                       <DeleteButton 
                         action={deleteArticle} 
                         id={article.id} 
+                        label="Delete"
+                        title="Delete article"
                         confirmMessage="Are you sure you want to delete this article? This action cannot be undone."
                       />
                     </div>
@@ -109,6 +114,7 @@ export default async function DashboardArticlesPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
