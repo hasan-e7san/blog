@@ -1,6 +1,25 @@
+import { loadEnvConfig } from "@next/env";
 import cron from "node-cron";
-import { prisma } from "../src/lib/prisma";
-import { generateArticle } from "../src/lib/ai";
+
+loadEnvConfig(process.cwd());
+
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error(
+    "OPENAI_API_KEY is missing. Add it to the server environment or the project root .env file before starting the worker."
+  );
+}
+
+const servicesPromise = Promise.all([
+  import("../src/lib/prisma"),
+  import("../src/lib/ai"),
+]).then(([prismaModule, aiModule]) => ({
+  prisma: prismaModule.prisma,
+  generateArticle: aiModule.generateArticle,
+}));
+
+async function getServices() {
+  return servicesPromise;
+}
 
 /**
  * Main article generation logic
@@ -9,6 +28,8 @@ async function generateDailyArticles() {
   console.log(`[${new Date().toISOString()}] TRIGGERED: Daily AI generation starting...`);
 
   try {
+    const { prisma, generateArticle } = await getServices();
+
     const categories = await prisma.category.findMany({
       where: { isActive: true, aiEnabled: true },
     });
@@ -94,6 +115,11 @@ console.log("Schedule: Every 3 days at midnight (0 0 */3 * *)");
 // Handle termination gracefully
 process.on("SIGTERM", async () => {
   console.log("Worker shutting down...");
-  await prisma.$disconnect();
+  try {
+    const { prisma } = await getServices();
+    await prisma.$disconnect();
+  } catch (error) {
+    console.error("Failed to disconnect Prisma cleanly:", error);
+  }
   process.exit(0);
 });

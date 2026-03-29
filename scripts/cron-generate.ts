@@ -1,8 +1,29 @@
-import { prisma } from "../src/lib/prisma";
-import { generateArticle } from "../src/lib/ai";
+import { loadEnvConfig } from "@next/env";
+
+loadEnvConfig(process.cwd());
+
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error(
+    "OPENAI_API_KEY is missing. Add it to the server environment or the project root .env file before running cron generation."
+  );
+}
+
+const servicesPromise = Promise.all([
+  import("../src/lib/prisma"),
+  import("../src/lib/ai"),
+]).then(([prismaModule, aiModule]) => ({
+  prisma: prismaModule.prisma,
+  generateArticle: aiModule.generateArticle,
+}));
+
+async function getServices() {
+  return servicesPromise;
+}
 
 async function runDailyGeneration() {
   console.log(`[${new Date().toISOString()}] Starting daily AI generation...`);
+
+  const { prisma, generateArticle } = await getServices();
 
   const categories = await prisma.category.findMany({
     where: { isActive: true, aiEnabled: true },
@@ -77,5 +98,10 @@ runDailyGeneration()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    try {
+      const { prisma } = await getServices();
+      await prisma.$disconnect();
+    } catch (error) {
+      console.error("Failed to disconnect Prisma cleanly:", error);
+    }
   });

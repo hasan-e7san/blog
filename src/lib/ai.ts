@@ -4,9 +4,24 @@ import fs from "fs";
 import path from "path";
 import axios from "axios";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let openaiClient: OpenAI | null = null;
+
+function getOpenAIClient() {
+  if (openaiClient) {
+    return openaiClient;
+  }
+
+  const apiKey = process.env.OPENAI_API_KEY;
+
+  if (!apiKey) {
+    throw new Error(
+      "OPENAI_API_KEY is missing. Make sure the server loads environment variables before using AI generation."
+    );
+  }
+
+  openaiClient = new OpenAI({ apiKey });
+  return openaiClient;
+}
 
 /**
  * Downloads an image from a URL and saves it locally
@@ -37,6 +52,8 @@ async function downloadImage(url: string, filename: string): Promise<string> {
 }
 
 export async function generateArticle(categoryId: string, authorId: string) {
+  const openai = getOpenAIClient();
+
   const category = await prisma.category.findUnique({
     where: { id: categoryId },
   });
