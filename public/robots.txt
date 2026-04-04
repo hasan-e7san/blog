@@ -1,0 +1,15 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /search
+Disallow: /api/
+
+# Host
+Host: https://blog.hasan-ehsan.cloud
+
+# Sitemaps
+Sitemap: https://blog.hasan-ehsan.cloud/sitemap.xml
