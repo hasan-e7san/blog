@@ -45,5 +45,6 @@ next-env.d.ts
 
 # Uploads
 public/uploads
+public/sitemap*
 
 /prisma/dev.db

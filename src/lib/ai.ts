@@ -6,6 +6,20 @@ import axios from "axios";
 
 let openaiClient: OpenAI | null = null;
 
+const FORBIDDEN_IMAGE_SUBJECTS =
+  /\b(human|humans|person|people|man|men|woman|women|boy|girl|child|children|face|portrait|character|animal|animals|pet|pets|dog|dogs|cat|cats|bird|birds|horse|horses|lion|tiger|bear|fish|insect|wildlife)\b/i;
+
+const IMAGE_STYLE_CONSTRAINTS =
+  "Create an abstract 2D illustration using only geometric shapes, lines, patterns, gradients, and icon-like design elements. Do not include humans, people, faces, characters, animals, wildlife, or pets.";
+
+function buildCompliantImagePrompt(imagePrompt: string, categoryName: string): string {
+  if (!imagePrompt || FORBIDDEN_IMAGE_SUBJECTS.test(imagePrompt)) {
+    return `Abstract 2D geometric illustration representing ${categoryName}. ${IMAGE_STYLE_CONSTRAINTS}`;
+  }
+
+  return `${imagePrompt.trim()} ${IMAGE_STYLE_CONSTRAINTS}`;
+}
+
 function getOpenAIClient() {
   if (openaiClient) {
     return openaiClient;
@@ -86,6 +100,11 @@ export async function generateArticle(categoryId: string, authorId: string) {
   - A list of tags (comma-separated)
   - A descriptive image prompt for DALL-E to generate a cover image.
 
+  IMAGE RULES (MANDATORY):
+  - The image must NOT contain humans or animals of any kind.
+  - Use only abstract visuals: geometric shapes, lines, icons, patterns, gradients, or diagram-like elements.
+  - The illustration must be 2D digital art / vector drawing style.
+
   Return the response in JSON format:
   {
     "title": "...",
@@ -115,11 +134,16 @@ export async function generateArticle(categoryId: string, authorId: string) {
     articleData.title = `${articleData.title} - Revisited`;
   }
 
+  const compliantImagePrompt = buildCompliantImagePrompt(
+    articleData.imagePrompt,
+    category.name
+  );
+
   // Generate image
   let localImagePath = null;
   try {
     const imageResponse = await openai.images.generate({
-      prompt: articleData.imagePrompt,
+      prompt: compliantImagePrompt,
       n: 1,
       size: "1024x1024",
     });
@@ -149,7 +173,7 @@ export async function generateArticle(categoryId: string, authorId: string) {
       coverImage: localImagePath,
       aiGenerated: true,
       generationPrompt: prompt,
-      imagePrompt: articleData.imagePrompt,
+      imagePrompt: compliantImagePrompt,
       status: "PUBLISHED",
       publishedAt: new Date(),
       categoryId: category.id,
