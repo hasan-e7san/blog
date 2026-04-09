@@ -79,9 +79,9 @@ export default async function EditCategoryPage({ params }: EditCategoryPageProps
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <div style={{ fontWeight: '500', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Sparkles size={14} style={{ color: 'var(--accent)' }} /> AI Enabled
+                <Sparkles size={14} style={{ color: 'var(--accent)' }} /> Generation Enabled
               </div>
-              <div className="text-muted" style={{ fontSize: '0.75rem' }}>Allow AI to generate articles for this category.</div>
+              <div className="text-muted" style={{ fontSize: '0.75rem' }}>Allow automated generation for this category.</div>
             </div>
             <input name="aiEnabled" type="checkbox" defaultChecked={category.aiEnabled} style={{ width: '18px', height: '18px' }} />
           </div>

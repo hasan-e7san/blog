@@ -88,7 +88,7 @@ export default async function DashboardPage() {
         <section>
           <div className="section-row" style={{ marginBottom: '2rem' }}>
             <h2 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Activity size={20} className="text-muted" /> AI Generation Logs
+              <Activity size={20} className="text-muted" /> Generation Logs
             </h2>
             <Link href="/dashboard/ai" className="text-muted" style={{ fontSize: '0.85rem' }}>View all</Link>
           </div>
@@ -150,7 +150,7 @@ export default async function DashboardPage() {
             <Link href="/dashboard/ai" className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <Zap size={18} style={{ color: 'var(--accent)' }} />
-                <span>Run AI Generator</span>
+                <span>Run Content Generator</span>
               </div>
               <ArrowRight size={16} className="text-muted" />
             </Link>
@@ -173,7 +173,7 @@ export default async function DashboardPage() {
           <div className="card" style={{ background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%)' }}>
             <h4 style={{ marginBottom: '1rem', fontSize: '1rem' }}>Need Help?</h4>
             <p className="text-muted" style={{ fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-              Check out our documentation on how the AI generation workflow works.
+              Check out our documentation on how the generation workflow works.
             </p>
             <button className="btn btn-outline" style={{ width: '100%', fontSize: '0.85rem' }}>Read Documentation</button>
           </div>

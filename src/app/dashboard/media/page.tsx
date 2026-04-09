@@ -27,7 +27,7 @@ export default async function DashboardMediaPage() {
                 <img src={item.coverImage!} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 {item.aiGenerated && (
                   <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(59, 130, 246, 0.9)', color: 'white', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold' }}>
-                    AI GENERATED
+                    GENERATED
                   </div>
                 )}
               </div>

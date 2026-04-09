@@ -42,7 +42,7 @@ export default async function DashboardLayout({
     { label: "Comments", icon: <MessageSquare size={18} />, href: "/dashboard/comments" },
     { label: "Likes", icon: <Heart size={18} />, href: "/dashboard/likes" },
     { label: "Media", icon: <ImageIcon size={18} />, href: "/dashboard/media" },
-    { label: "AI Control", icon: <Zap size={18} />, href: "/dashboard/ai" },
+    { label: "Generation Control", icon: <Zap size={18} />, href: "/dashboard/ai" },
     { label: "Settings", icon: <Settings size={18} />, href: "/dashboard/settings" },
   ];
 

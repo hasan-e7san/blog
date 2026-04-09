@@ -37,7 +37,7 @@ export default async function Home() {
           Explore the Frontier of <span className="gradient-text">Automated Intelligence</span>
         </h1>
         <p className="text-muted" style={{ fontSize: '1.25rem', maxWidth: '600px', marginBottom: '3rem' }}>
-          Daily insights on technology, development, and storytelling, generated and curated by advanced AI models.
+          Daily insights on technology, development, and storytelling, curated for modern builders.
         </p>
         <div className="hero-actions">
           <Link href="/blogs" className="btn btn-primary" style={{ gap: '0.5rem' }}>
@@ -59,7 +59,7 @@ export default async function Home() {
           
           {latestArticles.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
-              <p className="text-muted">The AI models are busy crafting new stories. Check back soon.</p>
+              <p className="text-muted">New stories are on the way. Check back soon.</p>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>

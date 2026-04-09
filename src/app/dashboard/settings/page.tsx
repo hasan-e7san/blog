@@ -9,8 +9,8 @@ import { updateSettings } from "@/lib/actions/setting-actions";
 
 export default async function DashboardSettingsPage() {
   const settings = await prisma.setting.findFirst() || {
-    siteName: "AI Blog Platform",
-    siteDescription: "The ultimate AI-generated blog platform",
+    siteName: "Hasan Blog Platform",
+    siteDescription: "A modern publishing platform for technology content",
     aiDailyGenerationEnabled: true,
     postsPerCategoryPerDay: 1,
     commentsEnabled: true,
@@ -23,7 +23,7 @@ export default async function DashboardSettingsPage() {
         <div className="section-row" style={{ marginBottom: '2.5rem' }}>
           <div>
             <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>Platform Settings</h1>
-            <p className="text-muted">Configure your site metadata, AI behavior, and system rules.</p>
+            <p className="text-muted">Configure your site metadata, automation behavior, and system rules.</p>
           </div>
           <button type="submit" className="btn btn-primary" style={{ gap: '0.5rem' }}>
             <Save size={18} /> Save All Changes
@@ -57,15 +57,15 @@ export default async function DashboardSettingsPage() {
             </div>
           </section>
 
-          {/* AI Configuration */}
+          {/* Automation Configuration */}
           <section className="card">
             <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Cpu size={20} style={{ color: '#a855f7' }} /> AI Generation Rules
+              <Cpu size={20} style={{ color: '#a855f7' }} /> Content Generation Rules
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               <div className="toggle-row">
                 <div>
-                  <div style={{ fontWeight: '500' }}>AI Generation Cycle</div>
+                  <div style={{ fontWeight: '500' }}>Generation Cycle</div>
                   <div className="text-muted" style={{ fontSize: '0.8rem' }}>Automatically generate new articles every 3 days.</div>
                 </div>
 
@@ -73,7 +73,7 @@ export default async function DashboardSettingsPage() {
               </div>
               <div className="toggle-row">
                 <div>
-                  <div style={{ fontWeight: '500' }}>Auto-Publish AI Articles</div>
+                  <div style={{ fontWeight: '500' }}>Auto-Publish Generated Articles</div>
                   <div className="text-muted" style={{ fontSize: '0.8rem' }}>New articles go live immediately without review.</div>
                 </div>
                 <input name="autoPublishAI" type="checkbox" defaultChecked={settings.autoPublishAI} style={{ width: '20px', height: '20px' }} />

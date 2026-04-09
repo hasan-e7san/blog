@@ -6,9 +6,9 @@ import { buildPageMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildPageMetadata({
   title: "Categories",
   description:
-    "Explore blog categories covering AI, development, storytelling, and practical technology topics.",
+    "Explore blog categories covering development, storytelling, and practical technology topics.",
   path: "/categories",
-  keywords: ["blog categories", "AI topics", "technology topics", "article categories"],
+  keywords: ["blog categories", "technology topics", "article categories"],
 });
 
 export default async function CategoriesPage() {

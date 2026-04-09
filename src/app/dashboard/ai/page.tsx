@@ -22,8 +22,8 @@ export default function AIDashboard() {
 
   return (
     <div>
-      <div className="prompt">$ sudo systemctl restart ai-generator</div>
-      <h1 style={{ marginBottom: "2rem" }}>AI GENERATION CONTROL</h1>
+      <div className="prompt">$ sudo systemctl restart content-generator</div>
+      <h1 style={{ marginBottom: "2rem" }}>GENERATION CONTROL</h1>
 
       <div className="card">
         <p style={{ marginBottom: "1.5rem" }}>
@@ -48,7 +48,7 @@ export default function AIDashboard() {
 
       {results.length > 0 && (
         <div style={{ marginTop: "3rem" }}>
-          <div className="prompt">$ tail /var/log/ai-generator.log</div>
+          <div className="prompt">$ tail /var/log/content-generator.log</div>
           <div className="card" style={{ padding: "1rem", background: "#000", fontFamily: "monospace", overflow: "auto" }}>
             {results.map((result, idx) => (
               <div key={idx} style={{ marginBottom: "0.5rem" }}>

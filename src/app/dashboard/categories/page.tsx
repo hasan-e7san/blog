@@ -22,7 +22,7 @@ export default async function DashboardCategoriesPage() {
       <div className="section-row" style={{ marginBottom: '2.5rem' }}>
         <div>
           <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>Categories</h1>
-          <p className="text-muted">Organize your content and control AI generation per category.</p>
+          <p className="text-muted">Organize your content and control automated generation per category.</p>
         </div>
         <Link href="/dashboard/categories/new" className="btn btn-primary" style={{ gap: '0.5rem' }}>
           <Plus size={18} /> Add Category
@@ -38,9 +38,9 @@ export default async function DashboardCategoriesPage() {
               </div>
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                 {category.aiEnabled ? (
-                  <span title="AI Enabled" style={{ color: '#10b981' }}><Zap size={18} /></span>
+                  <span title="Generation Enabled" style={{ color: '#10b981' }}><Zap size={18} /></span>
                 ) : (
-                  <span title="AI Disabled" className="text-muted"><ZapOff size={18} /></span>
+                  <span title="Generation Disabled" className="text-muted"><ZapOff size={18} /></span>
                 )}
                 <Link href={`/dashboard/categories/${category.id}`} className="text-muted" title="Edit">
                   <Edit2 size={18} />

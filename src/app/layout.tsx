@@ -110,7 +110,7 @@ export default async function RootLayout({
           <nav className="nav">
             <div className="container site-nav-inner">
               <Link href="/" className="site-brand">
-                <span style={{ color: 'var(--accent)' }}>AI.</span>BLOG
+                <span style={{ color: 'var(--accent)' }}>HASAN.</span>BLOG
               </Link>
 
               <div className="site-nav-menu">

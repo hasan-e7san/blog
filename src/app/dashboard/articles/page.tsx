@@ -46,7 +46,7 @@ export default async function DashboardArticlesPage() {
             {articles.length === 0 ? (
               <tr>
                 <td colSpan={5} style={{ padding: '4rem', textAlign: 'center' }} className="text-muted">
-                  No articles found. Use AI to generate some or create manually.
+                  No articles found. Generate some or create manually.
                 </td>
               </tr>
             ) : (

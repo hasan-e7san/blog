@@ -46,7 +46,7 @@ export default function RegisterPage() {
       <div className="card" style={{ width: '100%', maxWidth: '440px', padding: '2.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <h1 style={{ fontSize: '1.75rem', marginBottom: '0.75rem' }}>Create Account</h1>
-          <p className="text-muted" style={{ fontSize: '0.9rem' }}>Join the AI Blog community today.</p>
+          <p className="text-muted" style={{ fontSize: '0.9rem' }}>Join the blog community today.</p>
         </div>
         
         {error && (

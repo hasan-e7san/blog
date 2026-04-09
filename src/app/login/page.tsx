@@ -49,7 +49,7 @@ export default function LoginPage() {
       <div className="card" style={{ width: '100%', maxWidth: '440px', padding: '2.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <h1 style={{ fontSize: '1.75rem', marginBottom: '0.75rem' }}>Admin Portal</h1>
-          <p className="text-muted" style={{ fontSize: '0.9rem' }}>Sign in to manage your AI content platform.</p>
+          <p className="text-muted" style={{ fontSize: '0.9rem' }}>Sign in to manage your content platform.</p>
         </div>
         
         {error && (

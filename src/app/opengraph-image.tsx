@@ -43,7 +43,7 @@ export default function Image() {
               border: "1px solid rgba(255,255,255,0.15)",
             }}
           >
-            AI Blog • Engineering Notes
+            Tech Blog • Engineering Notes
           </div>
         </div>
 
@@ -73,8 +73,8 @@ export default function Image() {
               lineHeight: 1.35,
             }}
           >
-            AI-generated articles, software engineering insights, and practical
-            technology writing by Hasan Ehsan.
+            Technology articles, software engineering insights, and practical
+            writing by Hasan Ehsan.
           </div>
         </div>
 
@@ -88,7 +88,7 @@ export default function Image() {
           }}
         >
           <div style={{ display: "flex" }}>hasan-ehsan.cloud</div>
-          <div style={{ display: "flex" }}>Next.js • Prisma • OpenAI</div>
+          <div style={{ display: "flex" }}>Next.js • Prisma • TypeScript</div>
         </div>
       </div>
     ),

@@ -6,7 +6,7 @@ export const siteConfig = {
   name: "Hasan Ehsan Cloud",
   shortName: "Hasan Cloud",
   description:
-    "AI-generated articles, software engineering insights, and practical technology writing by Hasan Ehsan.",
+    "Technology articles, software engineering insights, and practical writing by Hasan Ehsan.",
   creator: "Hasan Ehsan",
   category: "technology",
   locale: "en_US",
@@ -17,14 +17,13 @@ export const siteConfig = {
   keywords: [
     "Hasan Ehsan",
     "Hasan Ehsan Cloud",
-    "AI blog",
     "technology blog",
     "software engineering",
     "web development",
     "Next.js",
     "full stack developer",
     "cloud infrastructure",
-    "artificial intelligence",
+    "developer blog",
   ],
 } as const;
 

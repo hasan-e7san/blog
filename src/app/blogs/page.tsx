@@ -6,12 +6,11 @@ import { buildPageMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildPageMetadata({
   title: "All Articles",
   description:
-    "Browse published AI-generated articles, software engineering notes, and practical technology insights.",
+    "Browse published articles, software engineering notes, and practical technology insights.",
   path: "/blogs",
   keywords: [
     "articles",
     "blog posts",
-    "AI articles",
     "technology articles",
     "software engineering insights",
   ],
@@ -28,7 +27,7 @@ export default async function BlogsPage() {
     <div>
       <div style={{ marginBottom: "4rem" }}>
         <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>All Articles</h1>
-        <p className="text-muted">A collection of AI-generated insights across various disciplines.</p>
+        <p className="text-muted">A collection of practical insights across various disciplines.</p>
       </div>
 
       <div className="content-grid-wide">
