@@ -16,6 +16,22 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## MinIO uploads
+
+This project stores uploaded files/images in MinIO (S3-compatible object storage).
+
+Set these environment variables before running the app:
+
+- `MINIO_ENDPOINT` (example: `localhost:9000` or `https://minio.example.com`)
+- `MINIO_ACCESS_KEY`
+- `MINIO_SECRET_KEY`
+- `MINIO_BUCKET`
+- `MINIO_USE_SSL` (`true` or `false`, only used when endpoint has no protocol)
+- `MINIO_PUBLIC_URL` (optional public base URL, example: `https://cdn.example.com/my-bucket`)
+- `MINIO_REGION` (optional, defaults to `us-east-1`)
+
+Uploads are available through `POST /api/uploads` (authenticated), and AI-generated cover images are also pushed to MinIO.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

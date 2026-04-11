@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Save, ImageIcon, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import DeleteButton from "@/components/shared/DeleteButton";
+import CoverImageUploader from "@/components/shared/CoverImageUploader";
 
 interface EditArticlePageProps {
   params: Promise<{ id: string }>;
@@ -143,17 +144,8 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
               <ImageIcon size={16} /> Cover Image
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label className="text-muted" style={{ fontSize: '0.8rem' }}>Image URL</label>
-              <input 
-                name="coverImage"
-                defaultValue={article.coverImage || ""}
-                style={{ background: '#000', border: '1px solid var(--card-border)', padding: '0.6rem', borderRadius: '8px', color: 'white' }}
-              />
-              {article.coverImage && (
-                <div style={{ marginTop: '1rem', borderRadius: '8px', overflow: 'hidden', height: '120px' }}>
-                   <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              )}
+              <label className="text-muted" style={{ fontSize: '0.8rem' }}>Upload Image</label>
+              <CoverImageUploader folder="covers" initialValue={article.coverImage || ""} />
             </div>
           </div>
 

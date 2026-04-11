@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { createArticle } from "@/lib/actions/article-actions";
 import { ArrowLeft, Save, Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
+import CoverImageUploader from "@/components/shared/CoverImageUploader";
 
 export default async function NewArticlePage() {
   const categories = await prisma.category.findMany({
@@ -125,13 +126,8 @@ export default async function NewArticlePage() {
               <ImageIcon size={16} /> Cover Image
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <label className="text-muted" style={{ fontSize: '0.8rem' }}>Image URL</label>
-              <input 
-                name="coverImage"
-                placeholder="https://..."
-                style={{ background: '#000', border: '1px solid var(--card-border)', padding: '0.6rem', borderRadius: '8px', color: 'white' }}
-              />
-              <p style={{ fontSize: '0.7rem', color: 'var(--muted-foreground)' }}>Provide a direct link to the cover image.</p>
+              <label className="text-muted" style={{ fontSize: '0.8rem' }}>Upload Image</label>
+              <CoverImageUploader folder="covers" />
             </div>
           </div>
         </aside>
