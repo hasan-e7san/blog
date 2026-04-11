@@ -8,13 +8,16 @@
     "postbuild": "next-sitemap",
     "start": "next start -p 3001",
     "lint": "eslint",
+    "rebuild:preserve-db": "tsx scripts/rebuild-preserve-db.ts",
     "cron:generate": "tsx scripts/cron-generate.ts",
-    "worker": "tsx scripts/worker.ts"
+    "worker": "tsx scripts/worker.ts",
+    "worker:run-now": "tsx scripts/worker.ts --run-now --exit-after-run"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.913.0",
     "@prisma/client": "^6.19.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node-cron": "^3.0.11",

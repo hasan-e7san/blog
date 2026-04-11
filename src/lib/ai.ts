@@ -1,8 +1,7 @@
 import OpenAI from "openai";
 import { prisma } from "./prisma";
-import fs from "fs";
-import path from "path";
 import axios from "axios";
+import { uploadBufferToStorage } from "./storage";
 
 let openaiClient: OpenAI | null = null;
 
@@ -37,31 +36,20 @@ function getOpenAIClient() {
   return openaiClient;
 }
 
-/**
- * Downloads an image from a URL and saves it locally
- */
-async function downloadImage(url: string, filename: string): Promise<string> {
-  const uploadDir = path.join(process.cwd(), "public", "uploads", "ai");
-  
-  // Ensure directory exists
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-
-  const filePath = path.join(uploadDir, filename);
-  const writer = fs.createWriteStream(filePath);
-
+async function downloadAndUploadImage(url: string, filename: string): Promise<string> {
   const response = await axios({
     url,
-    method: 'GET',
-    responseType: 'stream'
+    method: "GET",
+    responseType: "arraybuffer",
   });
 
-  response.data.pipe(writer);
+  const contentType = response.headers["content-type"] || "image/png";
 
-  return new Promise((resolve, reject) => {
-    writer.on('finish', () => resolve(`/uploads/ai/${filename}`));
-    writer.on('error', reject);
+  return uploadBufferToStorage({
+    buffer: Buffer.from(response.data),
+    contentType,
+    folder: "ai",
+    fileName: filename,
   });
 }
 
@@ -151,7 +139,7 @@ export async function generateArticle(categoryId: string, authorId: string) {
     const tempUrl = imageResponse.data?.[0]?.url;
     if (tempUrl) {
       const filename = `img-${Date.now()}.png`;
-      localImagePath = await downloadImage(tempUrl, filename);
+      localImagePath = await downloadAndUploadImage(tempUrl, filename);
     }
   } catch (error) {
     console.error("Image generation/download failed:", error);
