@@ -1,5 +1,7 @@
 import { loadEnvConfig } from "@next/env";
 import cron from "node-cron";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 loadEnvConfig(process.cwd());
 
@@ -21,6 +23,19 @@ async function getServices() {
   return servicesPromise;
 }
 
+async function backupSqliteBeforeGeneration() {
+  const dbPath = path.join(process.cwd(), "prisma", "dev.db");
+  const backupsDir = path.join(process.cwd(), "prisma", "backups");
+
+  await fs.mkdir(backupsDir, { recursive: true });
+
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const backupPath = path.join(backupsDir, `dev-${timestamp}.db`);
+
+  await fs.copyFile(dbPath, backupPath);
+  console.log(`[${new Date().toISOString()}] Backup created: ${backupPath}`);
+}
+
 /**
  * Main article generation logic
  */
@@ -28,6 +43,8 @@ async function generateDailyArticles() {
   console.log(`[${new Date().toISOString()}] TRIGGERED: Daily AI generation starting...`);
 
   try {
+    await backupSqliteBeforeGeneration();
+
     const { prisma, generateArticle } = await getServices();
 
     const categories = await prisma.category.findMany({
@@ -100,6 +117,9 @@ async function generateDailyArticles() {
   }
 }
 
+const runNow = process.argv.includes("--run-now");
+const exitAfterRun = process.argv.includes("--exit-after-run");
+
 // 1. Schedule to run every 3 days at midnight (00:00)
 cron.schedule("0 0 */3 * *", () => {
   generateDailyArticles();
@@ -109,8 +129,26 @@ cron.schedule("0 0 */3 * *", () => {
 console.log(`[${new Date().toISOString()}] AI Blog Worker is running...`);
 console.log("Schedule: Every 3 days at midnight (0 0 */3 * *)");
 
-// Optional: Uncomment the line below if you want it to run once immediately when the script starts
-// generateDailyArticles();
+if (runNow) {
+  generateDailyArticles()
+    .catch((error) => {
+      console.error("Run-now generation failed:", error);
+    })
+    .finally(async () => {
+      if (!exitAfterRun) {
+        return;
+      }
+
+      try {
+        const { prisma } = await getServices();
+        await prisma.$disconnect();
+      } catch (error) {
+        console.error("Failed to disconnect Prisma cleanly:", error);
+      }
+
+      process.exit(0);
+    });
+}
 
 // Handle termination gracefully
 process.on("SIGTERM", async () => {

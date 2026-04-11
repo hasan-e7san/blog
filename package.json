@@ -8,8 +8,10 @@
     "postbuild": "next-sitemap",
     "start": "next start -p 3001",
     "lint": "eslint",
+    "rebuild:preserve-db": "tsx scripts/rebuild-preserve-db.ts",
     "cron:generate": "tsx scripts/cron-generate.ts",
-    "worker": "tsx scripts/worker.ts"
+    "worker": "tsx scripts/worker.ts",
+    "worker:run-now": "tsx scripts/worker.ts --run-now --exit-after-run"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

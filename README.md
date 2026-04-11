@@ -16,6 +16,22 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Rebuild with SQLite preservation
+
+If your rebuild process touches `prisma/dev.db`, use:
+
+```bash
+npm run rebuild:preserve-db
+```
+
+This script temporarily moves `prisma/dev.db` to your OS temp folder, runs rebuild (`npm run build`), then restores your original DB and replaces any newly generated `dev.db`.
+
+You can also run a custom rebuild command:
+
+```bash
+npm run rebuild:preserve-db -- "npm run build"
+```
+
 ## MinIO uploads
 
 This project stores uploaded files/images in MinIO (S3-compatible object storage).
@@ -31,6 +47,20 @@ Set these environment variables before running the app:
 - `MINIO_REGION` (optional, defaults to `us-east-1`)
 
 Uploads are available through `POST /api/uploads` (authenticated), and AI-generated cover images are also pushed to MinIO.
+
+## Worker DB backup
+
+Before each scheduled AI generation cycle, the worker creates a timestamped SQLite backup at:
+
+- `prisma/backups/dev-<ISO_DATE>.db`
+
+This happens automatically in `npm run worker` before generation starts.
+
+To trigger one generation cycle immediately (and exit):
+
+```bash
+npm run worker:run-now
+```
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
